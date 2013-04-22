@@ -1,0 +1,13 @@
+#*.userprefs
+# Unity3D .gitignore file.
+#	 Store this file at the root of your local repository.
+# Moon Added... ..
+.DS_Store
+*.userprefs
+*.unity
+*.sln
+ignorefile.txt
+Assets/Resources
+Assets/Materials
+Library/metadata
+Temp
