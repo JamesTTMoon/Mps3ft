@@ -4,23 +4,16 @@ using System.Collections;
 public class MainMps : AmSceneBase {
 
     //HtVentureMan mMan = new HtVentureMan();
-    StateArray arrStt = new StateArray ();
+    StateArray arrStt;
 
-    HmFriend mForm, mLatt;
-    HmGod mGod;
-
-    public delegate void StateChanged(string pStt);
-    public StateChanged delStateChg;
-
-    //HtManager mMan = new HtManager();
 
 
     //  ////////////////////////////////////////////////     Starting Init Job
     public override void Start ()
     {
         mTimeLooseAtStartPoint = 0.1f; // Second
-        mSeldomActionNum = 500;
-        SetState ();
+        mSeldomActionNum = 5000;
+        GenerateTheStateArray ();
         base.Start ();
         muiActive = true;
 
@@ -28,9 +21,8 @@ public class MainMps : AmSceneBase {
         ("Jarisoo " + ttt.Jarisoo ()).HtLog (); // 3
         (" nth num " + ttt.NthNum (0) + " , " + ttt.NthNum (1)+ " , "  + ttt.NthNum (2)+ " , "  + ttt.NthNum (3)).HtLog (); // 1, 3, 5, -1
 
-        MdIntObj intObj = new MdIntObj (1045, true);
-
         Ag.Init();
+
     }
     
     public override void BaseStartSetting () // called from Start.. After Time Loose
@@ -41,35 +33,45 @@ public class MainMps : AmSceneBase {
         myGUI.SetColumns(3, 10);
 
     }
-    
-    void SetState ()
+
+    GameObject mForm, mLatt;
+
+    void GenerateTheStateArray ()
     {
         // Process of One Operation .. So it has mForm, mLatt, mGod..
 
+        // 1 + 1 = 2
+        arrStt = new StateArray ();
+
+        Ag.LogIntenseWord ("  >>>  GenerateTheStateArray  <<<  ");
+
         arrStt.AddAMember ("Init", 2f);
-        arrStt.AddEntryAction (() => {
-            Ag.LogString (" Init state ");
-            //mMan.SetOperation(12, 21, Godirum.PLU);
-            //mMan.SetOperation(3, 2, Godirum.PLU);
+        arrStt.AddEntryAction(()=>{
+
+        //arrStt.AddAMemberAndEntryAction ("Init", 2f, "Normal", ()=>{
+
+            Ag.LogIntenseWord("   yahoo  Init >>>>> ");
+
+            mForm = mRscrcMan.GetComPrefab("Friends", "ONEY");
+
+            mForm.transform.position =  new Vector3 (-7, 0, 0);
+
+
+
         });
 
      
+        arrStt.AddAMemberAndEntryAction ("RestInPeace", 0f, "Normal", () => {
+        });
 
-        arrStt.SetStateWithNameOf ("Init");
+
         arrStt.SetSerialExitMember ();
-
-        arrStt.delStateChange += (string pStt ) => {
-
-            //mMan.SetState(pStt);
-
-        };
-
+        arrStt.SetStateWithNameOf ("Init");
     }
+
     public override void SetAsset ()
     {
         base.SetAsset ();
-        
-
     }
     
  
@@ -78,7 +80,8 @@ public class MainMps : AmSceneBase {
     {
         base.Update ();
 
-        arrStt.DoAction ();
+        if (arrStt != null)
+            arrStt.DoAction ();
     }
     
     //  ////////////////////////////////////////////////     OnGUI related
