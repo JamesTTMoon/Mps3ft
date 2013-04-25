@@ -5,27 +5,20 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
-
-
 //  ////////////////////////////////////////////////     ////////////////////////     >>>>>  Array....  <<<<<
 public class StateArray
 {
     ArrayList arrState;
     List<AgVariable> arrVar;
     public StateGame mCurState;
-
-    public delegate void StateChanged(string pStt);
-    public StateChanged delStateChange;
-
+    
     //  ////////////////////////////////////////////////     Action !!!
     public void DoAction ()
     {
         // Set Variable Objects..
         
         if (! mCurState.mDidExecute_Entry) {
-        
-            delStateChange(mCurState.mName);
-
+            
             int num = arrVar.Count;
             for (int i=0; i<num; i++) {
                 AgVariable curVar = arrVar [i];
@@ -39,13 +32,10 @@ public class StateArray
         }
         
         mCurState = (StateGame)mCurState.Action ();
-     
+        
         if (mCurState != null) {
             if (!mCurState.mDidExecute_Entry)  // [2012:10:15:MOON] XXX
-            {
-                delStateChange(mCurState.mName);
                 mCurState = (StateGame)mCurState.Action ();
-            }
         }
     }
     
@@ -101,7 +91,7 @@ public class StateArray
         StateGame lastGame = (StateGame)arrState [arrState.Count - 1];
         lastGame.mEntryAction = pEntry;
     }
-
+    
     public void AddExitCondition (FunctionPointerBool pCond)
     {
         StateGame lastGame = (StateGame)arrState [arrState.Count - 1];
@@ -109,7 +99,7 @@ public class StateArray
         //  lastGame.mExitCondition = ReturnFalse; 
         lastGame.mExitCondition = pCond;
     }
-
+    
     public void AddDuringAction (FunctionPointer pCond)
     {
         StateGame lastGame = (StateGame)arrState [arrState.Count - 1];
@@ -123,7 +113,7 @@ public class StateArray
         //  lastGame.mExitCondition = ReturnFalse; 
         lastGame.mExitAction = pCond;
     }
- 
+    
     public void AddTimeOutProcess (float pLimitTime, FunctionPointer pTimeout)
     {
         StateGame lastGame = (StateGame)arrState [arrState.Count - 1];
@@ -143,7 +133,7 @@ public class StateArray
         StatePacket lastGame = (StatePacket)arrState[ arrState.Count - 1 ];
         lastGame.mEntryActionPack = pEntry;
     }*/
-
+    
     
     //  ////////////////////////////////////////////////     Set Exit State ..
     public void SetNextStateOf (string pTargetState, string pTheNextState)

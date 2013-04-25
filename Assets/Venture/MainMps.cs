@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.Text;
 
 public class MainMps : AmSceneBase {
 
@@ -23,6 +25,8 @@ public class MainMps : AmSceneBase {
 
         Ag.Init();
 
+        Cns.SetConstants ();
+
     }
     
     public override void BaseStartSetting () // called from Start.. After Time Loose
@@ -35,6 +39,7 @@ public class MainMps : AmSceneBase {
     }
 
     GameObject mForm, mLatt;
+    List<GameObject> arrJinsim;
 
     void GenerateTheStateArray ()
     {
@@ -43,21 +48,35 @@ public class MainMps : AmSceneBase {
         // 1 + 1 = 2
         arrStt = new StateArray ();
 
-        Ag.LogIntenseWord ("  >>>  GenerateTheStateArray  <<<  ");
-
-        arrStt.AddAMember ("Init", 2f);
-        arrStt.AddEntryAction(()=>{
-
-        //arrStt.AddAMemberAndEntryAction ("Init", 2f, "Normal", ()=>{
-
-            Ag.LogIntenseWord("   yahoo  Init >>>>> ");
-
+        arrStt.AddAMemberAndEntryAction ("Init", 2f, "Normal", ()=>{
             mForm = mRscrcMan.GetComPrefab("Friends", "ONEY");
-
             mForm.transform.position =  new Vector3 (-7, 0, 0);
+            mForm.transform.Rotate(new Vector3(0, 0, 180 ));
+
+            mLatt = mRscrcMan.GetComPrefab("Friends", "ONEY");
+            mLatt.transform.position =  new Vector3 (7, 0, 0);
+            mLatt.transform.Rotate(new Vector3(0, 0, 180 ));
+        });
+
+        arrStt.AddAMemberAndEntryAction ("JinsimIntro", 2f, "Normal", () => {
+            mForm.AddComponent<HtFriendIdv>();
+            mLatt.AddComponent<HtFriendIdv>();
+            mForm.GetComponent<HtFriendIdv>().SetFff(Fff.ONEY);
+            mLatt.GetComponent<HtFriendIdv>().SetFff(Fff.ONEY);
+            mForm.GetComponent<HtFriendIdv>().SetState("JinsimIntro");
+            mLatt.GetComponent<HtFriendIdv>().SetState("JinsimIntro");
+
+            mForm.GetComponent<HtFriendIdv>().CreateJinsim();
+            mLatt.GetComponent<HtFriendIdv>().CreateJinsim();
 
 
 
+
+        });
+
+        arrStt.AddAMemberAndEntryAction ("JinsimRelease", 2f, "Normal", () => {
+            mForm.AddComponent<HtFriendIdv> ().SetState("Destroy");
+            mLatt.AddComponent<HtFriendIdv> ().SetState("Destroy");
         });
 
      

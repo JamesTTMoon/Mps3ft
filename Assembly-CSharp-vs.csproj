@@ -49,13 +49,13 @@
      <Compile Include="Assets\CSrcIndvEfct\EfctBaseClass.cs" />
      <Compile Include="Assets\CSrcIndvEfct\EfctSplit.cs" />
      <Compile Include="Assets\CSrcIndvEfct\EfctTrans.cs" />
+     <Compile Include="Assets\CSrcIndvEfct\HtFriendIdv.cs" />
      <Compile Include="Assets\CSrcIndvEfct\HtIndvBase.cs" />
      <Compile Include="Assets\CSrcIndvEfct\HtJinsimIdv.cs" />
      <Compile Include="Assets\CSrcModel\Cns.cs" />
      <Compile Include="Assets\CSrcModel\HmEquation.cs" />
      <Compile Include="Assets\CSrcModel\HmFriend.cs" />
      <Compile Include="Assets\CSrcModel\HmJinsimManager.cs" />
-     <Compile Include="Assets\CSrcModel\HtFriendIdv.cs" />
      <Compile Include="Assets\CSrcModel\HtGod.cs" />
      <Compile Include="Assets\CSrcModel\MdFormatter.cs" />
      <Compile Include="Assets\CSrcModel\MpsObjects.cs" />

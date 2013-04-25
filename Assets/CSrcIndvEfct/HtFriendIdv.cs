@@ -1,17 +1,35 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class HtFriendIdv : HtIndvBase {
 
     public AudioSource mIntroSound;
     public Fff myFff;
+    HtRsrcMan mRscrcMan = new HtRsrcMan ("Folder");
 
     Vector3 mPosition;
+
+    List<GameObject> arrJinsim = new List<GameObject>();
 
 	// Use this for initialization
 	public override void Start () {
 	
 	}
+
+    public void SetFff( Fff pFff) {
+        myFff = pFff;
+    }
+
+    public void CreateJinsim()
+    {
+        GameObject jinsim = mRscrcMan.GetComPrefab("Friends", "Jinsim");
+        jinsim.AddComponent<HtJinsimIdv>();
+        jinsim.transform.position = transform.position + Cns.arrJinsimAe [1] [0].OrigAe;
+
+        (" Vector :: " + (transform.position + Cns.arrJinsimAe [1] [0].OrigAe).GetType ().ToString ()).HtLog ();
+        arrJinsim.Add (jinsim);
+    }
 	
 	// Update is called once per frame
     public override void Update () {
@@ -33,7 +51,12 @@ public class HtFriendIdv : HtIndvBase {
         case "JinsimIntro":
             transform.MoveBack(0.1f);
             break;
+
+        case "Destroy":
+            Destroy(gameObject);
+            break;
         }
+
 	
 	}
 

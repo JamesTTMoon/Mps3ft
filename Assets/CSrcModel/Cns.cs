@@ -67,7 +67,7 @@ public class Cns
 
         // Oney
         friendList = new List<VecRot> ();
-        friendList.Add (new VecRot(0.00f, -0.50f, 0, 0, 0, 0));
+        friendList.Add (new VecRot(0.00f, 2.00f, 0, 0, 0, 0));
         arrJinsimAe.Add (friendList);
 
         // Twoer
