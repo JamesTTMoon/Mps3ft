@@ -51,7 +51,7 @@ public class HmFriend : MpsModel  //
     {
         (" HmFriend :: CreateJinsim  >>>>  " + meuFff).HtLog ();
 
-        List<VecRot> myList = Cns.arrJinsimAe [(int)meuFff];
+        List<VecRot> myList = JJ.arrJinsimAe [(int)meuFff];
 
         //(" Length " + ((int) meuFff) + ",  " +  myList.Count).HtLog ();
 
@@ -60,9 +60,9 @@ public class HmFriend : MpsModel  //
             //"New Jinsim ".HtLog();
             //            curJs.ShowPosi();
 
-            curJs.GetComponent<HtJinsimIdv> ().mInitFobj = meuFff;
-            curJs.transform.position = mGobj.transform.GetApplyVect3 (curAe.OrigAe);
-            curJs.transform.Rotate (curAe.OriRot);
+            //curJs.GetComponent<HtJinsimIdv> ().mInitFobj = meuFff;
+            curJs.transform.position = mGobj.transform.GetApplyVect3 (curAe.Ae);
+            curJs.transform.Rotate (curAe.Dora);
 
             arrJinsim.Add (curJs);
         }

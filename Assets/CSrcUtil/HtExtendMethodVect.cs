@@ -10,6 +10,14 @@ public static class HtExtendMethodVect
 		pTarget.position = new Vector3(pTarget.position.x, pTarget.position.y, pTarget.position.z + pVal);
 	}
 	
+
+    public static void SetScaleFactor(this Transform pTarget, Vector3 pVect)
+    {
+        Vector3 kugi = pTarget.localScale;
+        pTarget.localScale = new Vector3 (kugi.x * pVect.x, kugi.y * pVect.y, kugi.z * pVect.z);
+    }
+
+
 	public static Vector3 GetApplyVect3(this Transform pTarget, Vector3 pVect)
 	{
         return new Vector3(pTarget.position.x + pVect.x, pTarget.position.y + pVect.y, pTarget.position.z + pVect.z) ;

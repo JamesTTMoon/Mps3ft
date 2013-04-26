@@ -4,47 +4,57 @@ using System.Collections;
 public class HtJinsimIdv : HtIndvBase {
     
     public AudioSource mIntroSound;
-    public Fff mInitFobj, mRsltFobj;
+    //public Fff mInitFobj, mRsltFobj;
     public int mInitPrtN, mRsltPrtN;
 
-    Godirum mGod;
-    
-    Vector3 mPosition;
+    //Vector3 mPosition;
+
+    VecRot mTarget;
     
     // Use this for initialization
     public override void Start () {
         
     }
 
-    public void SetGod(Godirum pGod)
+    public void SetTarget(VecRot pTarVr)
     {
-        mGod = pGod;
+        mTarget = pTarVr;
     }
 
     // Update is called once per frame
     public override void Update () {
         
-        mPosition = transform.position;
+        Vector3 ae  = transform.position;
         
         // Some Coordinate Noise Generation ...  Some Rotating, Moving Animations....
         switch (mState) {
             
         case "Freeze":
             // Animation Play.. 
-            
-            // or some 
-            
-            transform.position = mPosition.Freeze();
-            
+
+            transform.position = ae.Freeze();
             break;
 
-        case "Split":
+        case "Jumbi": // 준비
+            // Rotation only...
+            if (JJ.mgGod == Godirum.PLU) {
 
+                (" Jumbi , PLU ").HtLog();
 
+            }
+
+            if (JJ.mgGod == Godirum.MUL) {
+            }
 
             break;
 
-        case "Transform":
+        case "Chum":
+            // Transform, Rotation, Scale Setting...
+            if (JJ.mgGod == Godirum.PLU) {
+                
+                (" Chum , PLU ").HtLog();
+                
+            }
 
 
             break;
@@ -55,8 +65,14 @@ public class HtJinsimIdv : HtIndvBase {
 
         case "Result":
             // Will be destroyed... The following line will not executed !!! 
-            "Destroy Myself   ".HtLog();
+            " Result ;::: Destroy Myself   ".HtLog();
 
+            break;
+
+        case "Destroy":
+            // Will be destroyed... The following line will not executed !!! 
+            //" Result ;::: Destroy Myself   ".HtLog();
+            
             break;
         }
 
@@ -69,7 +85,7 @@ public class HtJinsimIdv : HtIndvBase {
             mIntroSound.Play ();
         // myFff = ONEY ...
         
-        mIntroSound = (AudioSource)Resources.Load ("Com/Friends/Sound" + mInitFobj.ToString () + "_Intro"); 
+        //mIntroSound = (AudioSource)Resources.Load ("Com/Friends/Sound" + mInitFobj.ToString () + "_Intro"); 
         
     }
     

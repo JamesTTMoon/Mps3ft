@@ -21,15 +21,29 @@ public class HtFriendIdv : HtIndvBase {
         myFff = pFff;
     }
 
-    public void CreateJinsim()
+    public List<GameObject> CreateJinsim()
     {
         GameObject jinsim = mRscrcMan.GetComPrefab("Friends", "Jinsim");
-        jinsim.AddComponent<HtJinsimIdv>();
-        jinsim.transform.position = transform.position + Cns.arrJinsimAe [1] [0].OrigAe;
+        //jinsim.AddComponent<HtJinsimIdv>(); it's there ...
+        jinsim.transform.position = transform.position + JJ.arrJinsimAe [1] [0].Ae;
 
-        (" Vector :: " + (transform.position + Cns.arrJinsimAe [1] [0].OrigAe).GetType ().ToString ()).HtLog ();
+        (" Vector :: " + (transform.position + JJ.arrJinsimAe [1] [0].Ae).GetType ().ToString ()).HtLog ();
         arrJinsim.Add (jinsim);
+        return arrJinsim;
     }
+
+    public List<VecRot> HonPosition()
+    {
+        List<VecRot> retAe = JJ.arrJinsimAe[(int)myFff];
+
+        Vector3 cur = transform.position;
+        foreach (VecRot vrObj in retAe) {
+            vrObj.ApplyVector(cur.x, cur.y, null);
+        }
+
+        return retAe;
+    }
+
 	
 	// Update is called once per frame
     public override void Update () {
@@ -40,12 +54,7 @@ public class HtFriendIdv : HtIndvBase {
         switch (mState) {
 
         case "Freeze":
-            // Animation Play.. 
-
-            // or some 
-
             transform.position = mPosition.Freeze();
-
             break;
 
         case "JinsimIntro":
@@ -56,8 +65,6 @@ public class HtFriendIdv : HtIndvBase {
             Destroy(gameObject);
             break;
         }
-
-	
 	}
 
     public void IntroduceAction()

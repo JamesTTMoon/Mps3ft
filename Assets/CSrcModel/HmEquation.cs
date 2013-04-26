@@ -123,7 +123,7 @@ public class HmEquation : MpsModel  //    !!!   Will Be Deprecated
         (" HmEquation :: SetItemInt   >> jari = " + nObj.mJarisoo).HtLog ();
         
         for (int k=0; k<nObj.mJarisoo; k++) {
-            HmFriend obj = new HmFriend (pVal.NthNum (k), new Vector3 (pAe.x + k * Cns.mgWidthOfFriend, pAe.y, pAe.z));
+            HmFriend obj = new HmFriend (pVal.NthNum (k), new Vector3 (pAe.x + k * JJ.mgWidthOfFriend, pAe.y, pAe.z));
             (" HmEquation :: SetItemInt  >>>>  Add Unit Number   " + obj.mName).HtLog ();
             nObj.arrItem.Add (obj);
         }

@@ -25,42 +25,63 @@ public enum Godirum
 
 public class VecRot
 {
-    public Vector3 TargAe, OrigAe;
-    public Vector3 TarRot, OriRot;
+    public Vector3 Ae, Kugi, Dora;
 
     public VecRot(float x, float y, float z, float rx, float ry, float rz)
     {
-        OrigAe = new Vector3 (x, y, z);
-        OriRot = new Vector3 (rx, ry, rz);
+        SetPosiRot (x, y, z, rx, ry, rz);
+    }
+
+    void SetPosiRot(float x, float y, float z, float rx, float ry, float rz)
+    {
+        Ae = new Vector3 (x, y, z);
+        Dora = new Vector3 (rx, ry, rz);
+    }
+
+    public VecRot(float x, float y, float z, float rx, float ry, float rz, float kx, float ky, float kz)
+    {
+        SetPosiRot (x, y, z, rx, ry, rz);
+        Kugi = new Vector3 (kz, ky, kz);
     }
 
     public void SetOriginAe(float x, float y, float z)
     {
-        OrigAe = new Vector3 (x, y, z);
+        Ae = new Vector3 (x, y, z);
     }
 
-    public void SetTargetAe(float x, float y, float z)
+    public void ApplyVector(float? pX, float? pY, float? pZ)
     {
-        TargAe = new Vector3 (x, y, z);
+        Vector3 rVec = Ae;
+        if (pX != null)
+            rVec.x += pX.Value;
+        if (pY != null)
+            rVec.y += pY.Value;
+        if (pZ != null)
+            rVec.z += pZ.Value;
+        (" NewVec : " + rVec.ToString () + "  Ae : " + Ae.ToString ()).HtLog ();
+        Ae = rVec;
     }
+
 
 }
 
 
 
-//  ////////////////////////////////////////////////     ////////////////////////     >>>>>  Resource Load Manager  <<<<<
-public class Cns
+//  ////////////////////////////////////////////////     ////////////////////////     >>>>>  # JJ :  전역 자료형.  <<<<<
+public class JJ
 {
     public static float mgWidthOfFriend = 3.1f;
 
-
+    public static Godirum mgGod;
 
 
     public static List<List<VecRot>> arrJinsimAe = new List<List<VecRot>>();
 
-    public static void SetConstants()
-    {
+    public static void Init()
+    { 
         List<VecRot> friendList = new List<VecRot> ();
+
+        float kugi = 0.9f;
 
         // Young
         arrJinsimAe.Add (friendList); // No Object
@@ -72,8 +93,8 @@ public class Cns
 
         // Twoer
         friendList = new List<VecRot> ();
-        friendList.Add (new VecRot (0.10f, 2.00f, 0, 0, 0, 0));// 45));
-        friendList.Add (new VecRot (0.50f, 0.00f, 0, 0, 0, 0));//-45));
+        friendList.Add (new VecRot (-0.80f, 3.15f, 0, 0, 0, -45, kugi, kugi, kugi));// 45));
+        friendList.Add (new VecRot (-0.80f, 1.65f, 0, 0, 0, 45, kugi, kugi, kugi));//-45));
         arrJinsimAe.Add (friendList);
 
         // Threen
