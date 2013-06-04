@@ -20,8 +20,7 @@ public static class ExtTransVect
         else
             pTarget.localScale = pVr.Kugi;
     }
-    
-    
+
     public static void MoveBack(this Transform pTarget, float pVal)
     {
         pTarget.position = new Vector3(pTarget.position.x, pTarget.position.y, pTarget.position.z + pVal);
