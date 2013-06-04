@@ -8,14 +8,16 @@ public class MainMps : AmSceneBase {
     //HtVentureMan mMan = new HtVentureMan();
     StateArray arrStt;
 
+    MpsMonoSubMethods mMpsMono = new MpsMonoSubMethods();
+    GameObject mGod;
 
 
     //  ////////////////////////////////////////////////     Starting Init Job
     public override void Start ()
     {
-        mTimeLooseAtStartPoint = 0.1f; // Second
+        mTimeLooseAtStartPoint = 0.5f; // Second
         mSeldomActionNum = 5000;
-        GenerateTheStateArray ();
+
         base.Start ();
         muiActive = true;
 
@@ -31,114 +33,62 @@ public class MainMps : AmSceneBase {
         bV.y = 5;
         aV.z = 7;
 
-        (" aV : " + aV.ToString () + "  bV : " + bV.ToString ()).HtLog ();
-
-
+        //(" aV : " + aV.ToString () + "  bV : " + bV.ToString ()).HtLog ();
     }
     
     public override void BaseStartSetting () // called from Start.. After Time Loose
     {
         base.BaseStartSetting ();
-        
-        //Ag.LogIntenseWord("Set column 3 10");
-        myGUI.SetColumns(3, 10);
 
+        myGUI.SetColumns(3, 10);
+    
+        InitialSetting ();
+        Switch2NextOperation ();
+        //mGod = GetComponent<MpsMonoSubMethods>().SetGod (Godirum.PLU);
+        //mGod.GetComponent<MpsOperator> ().Venture (2, 3);
     }
 
-    GameObject mForm, mLatt, mHon;
-    List<GameObject> arrJsObj;
-    //List<VecRot> arrHonJsVecrot;
+    List<MdUnitOperation> arrUnit = new List<MdUnitOperation>();
 
-    void GenerateTheStateArray ()
+    void InitialSetting()
     {
-        // Process of One Operation .. So it has mForm, mLatt, mGod..
+        arrUnit.Add (new MdUnitOperation (9, 1, Godirum.PLU));
 
-        // 1 + 1 = 2
-        arrStt = new StateArray ();
+        arrUnit.Add (new MdUnitOperation (1, 1, Godirum.PLU));
+        arrUnit.Add (new MdUnitOperation (2, 1, Godirum.PLU));
+        arrUnit.Add (new MdUnitOperation (3, 1, Godirum.PLU));
+        arrUnit.Add (new MdUnitOperation (4, 1, Godirum.PLU));
+        arrUnit.Add (new MdUnitOperation (5, 1, Godirum.PLU));
+        arrUnit.Add (new MdUnitOperation (6, 1, Godirum.PLU));
+        arrUnit.Add (new MdUnitOperation (7, 1, Godirum.PLU));
+        arrUnit.Add (new MdUnitOperation (8, 1, Godirum.PLU));
+        arrUnit.Add (new MdUnitOperation (2, 2, Godirum.PLU));
+        arrUnit.Add (new MdUnitOperation (3, 2, Godirum.PLU));
+        arrUnit.Add (new MdUnitOperation (4, 2, Godirum.PLU));
+        arrUnit.Add (new MdUnitOperation (6, 2, Godirum.PLU));
+        arrUnit.Add (new MdUnitOperation (7, 2, Godirum.PLU));
+        arrUnit.Add (new MdUnitOperation (1, 3, Godirum.PLU));
+        arrUnit.Add (new MdUnitOperation (3, 3, Godirum.PLU));
+        arrUnit.Add (new MdUnitOperation (5, 3, Godirum.PLU));
+        arrUnit.Add (new MdUnitOperation (2, 4, Godirum.PLU));
+        arrUnit.Add (new MdUnitOperation (3, 4, Godirum.PLU));
+        arrUnit.Add (new MdUnitOperation (8, 4, Godirum.PLU));
+        arrUnit.Add (new MdUnitOperation (2, 6, Godirum.PLU));
+        arrUnit.Add (new MdUnitOperation (3, 6, Godirum.PLU));
+        arrUnit.Add (new MdUnitOperation (1, 7, Godirum.PLU));
+        arrUnit.Add (new MdUnitOperation (2, 7, Godirum.PLU));
+    }
 
-        arrStt.AddAMemberAndEntryAction ("Init", 2f, "Normal", ()=>{
-            JJ.mgGod = Godirum.PLU;
-            mForm = mRscrcMan.GetComPrefab("Friends", "ONEY");
-            mForm.transform.position =  new Vector3 (-7, 0, 0);
-            mForm.transform.Rotate(new Vector3(0, 0, 180 ));
-
-            mLatt = mRscrcMan.GetComPrefab("Friends", "ONEY");
-            mLatt.transform.position =  new Vector3 (7, 0, 0);
-            mLatt.transform.Rotate(new Vector3(0, 0, 180 ));
-        });
-
-        arrStt.AddAMemberAndEntryAction ("JinsimIntro", 2f, "Normal", () => {
-            mForm.AddComponent<HtFriendIdv>(); // there are 10 objects.. so.. no drag and drop.. 
-            mLatt.AddComponent<HtFriendIdv>();
-            mForm.GetComponent<HtFriendIdv>().SetFff(Fff.ONEY);
-            mLatt.GetComponent<HtFriendIdv>().SetFff(Fff.ONEY);
-            mForm.GetComponent<HtFriendIdv>().SetState("JinsimIntro");
-            mLatt.GetComponent<HtFriendIdv>().SetState("JinsimIntro");
-            // Jinsim Assign ...
-            arrJsObj = mForm.GetComponent<HtFriendIdv>().CreateJinsim();
-            arrJsObj.AddRange(mLatt.GetComponent<HtFriendIdv>().CreateJinsim() );
-            Ag.LogIntenseWord( "  arrJsObj Count   " + arrJsObj.Count);
-        });
-
-        arrStt.AddAMemberAndEntryAction ("JinsimJumbi", 2f, "Normal", () => {
-            mForm.GetComponent<HtFriendIdv> ().SetState("Destroy");
-            mLatt.GetComponent<HtFriendIdv> ().SetState("Destroy");
-
-            mHon = mRscrcMan.GetComPrefab("Friends", "TWOER");
-            mHon.AddComponent<HtFriendIdv>();
-            mHon.GetComponent<HtFriendIdv>().SetFff(Fff.TWOER);
-            mHon.transform.position =  new Vector3 (0, 0, 1);
-            mHon.transform.Rotate(new Vector3(0, 0, 180 ));
-
-            List<VecRot> honVecrot = mHon.GetComponent<HtFriendIdv>().HonPosition(); // Hon Positions...
-
-            if (arrJsObj.Count != honVecrot.Count)
-                Ag.LogIntenseWord( " It's Big Problem .....   JS Count no match  ");
-            int k=0;
-            foreach(GameObject jsgo in arrJsObj) {
-                jsgo.GetComponent<HtJinsimIdv>().SetTarget(honVecrot[k++]);
-                jsgo.GetComponent<HtJinsimIdv>().SetState("Jumbi");
-            }
-
-
-
-
-
-        });
-
-        arrStt.AddAMemberAndEntryAction ("JinsimTransform", 2f, "Normal", () => {
-
-            foreach(GameObject jsgo in arrJsObj) {
-                jsgo.GetComponent<HtJinsimIdv>().SetState("Chum");
-            }
-
-            /* GameObject go;
-             foreach(VecRot vr in arrHonJsVecrot) {
-                go = mRscrcMan.GetComPrefab("Friends", "Jinsim");
-                go.transform.position = vr.Ae;
-                go.transform.SetScaleFactor(vr.Kugi);
-                go.transform.Rotate(vr.Dora);
-            } */
-
-        });
-
-
-        arrStt.AddAMemberAndEntryAction ("ShowResult", 2f, "Normal", () => {
-            foreach(GameObject jsgo in arrJsObj) {
-                jsgo.GetComponent<HtJinsimIdv>().SetState("Result");
-            }
-        });
-     
-        arrStt.AddAMemberAndEntryAction ("RestInPeace", 0f, "Normal", () => {
-            foreach(GameObject jsgo in arrJsObj) {
-                jsgo.GetComponent<HtJinsimIdv>().SetState("Destroy");
-            }
-
-        });
-
-
-        arrStt.SetSerialExitMember ();
-        arrStt.SetStateWithNameOf ("Init");
+    void Switch2NextOperation()
+    {
+        if (mGod != null)
+            Destroy (mGod);
+        if (arrUnit.Count == 0)
+            return;
+        MdUnitOperation curOper = arrUnit [0];
+        mGod = GetComponent<MpsMonoSubMethods>().SetGod (curOper.mGod);
+        mGod.GetComponent<MpsOperator> ().Venture (curOper.mForm, curOper.mLatt);
+        arrUnit.Remove (curOper);
     }
 
     public override void SetAsset ()
@@ -151,9 +101,10 @@ public class MainMps : AmSceneBase {
     public override void Update ()
     {
         base.Update ();
-
-        if (arrStt != null)
-            arrStt.DoAction ();
+        if (mGod != null && mCounter % 20 == 15) {
+            if (mGod.GetComponent<MpsOperator> ().GetState() == "RestInPeace")
+                Switch2NextOperation();
+        }
     }
     
     //  ////////////////////////////////////////////////     OnGUI related
@@ -162,7 +113,9 @@ public class MainMps : AmSceneBase {
         base.OnGUI ();
         
         muiCol = 0; muiRow = 0;
-        
+
+        return;
+
         if (myGUI == null) return;
         
         if (!muiActive) 

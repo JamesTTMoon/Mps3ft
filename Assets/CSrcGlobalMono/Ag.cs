@@ -14,6 +14,8 @@ using System.Net;
 using System.Net.Sockets;
 using System.IO;
 
+public class AmPack
+{}
 
 public delegate void FunctionPointer();
 public delegate bool FunctionPointerBool();

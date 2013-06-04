@@ -8,9 +8,11 @@ using System;
 //  ////////////////////////////////////////////////     ////////////////////////     >>>>>  Array....  <<<<<
 public class StateArray
 {
-    ArrayList arrState;
+    //ArrayList arrState;
+    List<StateGame> arrState;
     List<AgVariable> arrVar;
     public StateGame mCurState;
+    public bool mIsDebug = false;
     
     //  ////////////////////////////////////////////////     Action !!!
     public void DoAction ()
@@ -50,7 +52,7 @@ public class StateArray
             if (mCurState.mDidExecute_Entry)  // [2012:10:15:MOON] XXX
                 return mCurState.mName;
             else 
-                return "XXX";
+                return "BEFORE_ENTRY_" + mCurState.mName;
         } else
             return "";
     }
@@ -58,14 +60,14 @@ public class StateArray
     //  ////////////////////////////////////////////////     Creation
     public StateArray ()
     {
-        arrState = new ArrayList ();
+        arrState = new List<StateGame> (); // ArrayList ();
         arrVar = new List<AgVariable> ();
     }
     
     //  ////////////////////////////////////////////////     Initial Setting Members...
     public void AddAMember (string pName, float pTimerSet, string pType = "Normal")
     {
-        BaseState newObj;
+        StateGame newObj;
         if (pType == "Packet")
             newObj = new StatePacket (pName, pTimerSet);
         else
@@ -73,9 +75,16 @@ public class StateArray
         arrState.Add (newObj);
     }
     
+    public void AddAdditionalActionOf (string pName, string pType, FunctionPointer pAction)
+    { // [2013:4:19:MOON] Added
+        StateGame aObj = (StateGame) GetObjectNameOf (pName);
+        //(" HtStateArray :: AddAdditionalActionOf  " + aObj.mName).HtLog ();
+        aObj.AddAnActionTo (pType, pAction);
+    }
+    
     public void AddAMemberAndEntryAction(string pName, float pTimerSet, string pType, FunctionPointer pEntry)
     {
-        BaseState newObj;
+        StateGame newObj;
         if (pType == "Packet")
             newObj = new StatePacket (pName, pTimerSet);
         else
@@ -204,6 +213,17 @@ public class StateArray
         return null;
     }
     
+    public StateGame GetState (string pName)
+    {
+        int j, num = arrState.Count;
+        for (j=0; j<num; j++) {
+            if (pName == arrState [j].mName) {
+                return arrState [j];
+            }
+        }
+        return null;
+    }
+    
     public bool IsCurState (string pName)
     {
         return (GetCurStateName () == pName);
@@ -212,6 +232,14 @@ public class StateArray
     public BaseState GetCurStateObj ()
     {
         return mCurState;
+    }
+    
+    public void SetDebug(bool pIsDebug, bool pNoDebug)
+    {
+        foreach (StateGame aObj in arrState) {
+            aObj.mIsDebug = pIsDebug;
+            aObj.mNoDebug = pNoDebug;
+        }
     }
     
 }

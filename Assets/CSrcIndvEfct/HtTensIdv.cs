@@ -2,36 +2,33 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class HtFriendIdv : HtIndvBase {
+public class HtTensIdv : HtIndvBase {
 
-    public AudioSource mIntroSound;
     public Fff myFff;
     HtRsrcMan mRscrcMan = new HtRsrcMan ("Folder");
 
-    //Vector3 mPosition;
-
     List<GameObject> arrJinsim = new List<GameObject>();
     List<GameObject> arrEyes = new List<GameObject>();
-
-	// Use this for initialization
-	public override void Start () {
-
-	}
-
+    
+    // Use this for initialization
+    public override void Start () {
+        mRotation = new Vector3 (0, 0.3f, 0);
+    }
+    
     public void InitJob(Fff pFff)
     {
         myFff = pFff;
     }
-
+    /*
     public void LoadEyes(List<GameObject> pArrEyes, bool pIsHon = false)
     {
         GameObject eye;
         List<VecRot> curArr = JJ.arrEyeAe[(int)myFff];
-
+        
         foreach (VecRot curVr in curArr) {
             eye = (GameObject)MonoBehaviour.Instantiate (Resources.Load ("Com/Friends/" + curVr.mObjName));
             eye.transform.SetJinsimAeDora(transform, curVr);
-
+            
             if (pIsHon) {
                 eye.transform.parent = transform;
                 arrEyes.Add(eye);
@@ -41,6 +38,7 @@ public class HtFriendIdv : HtIndvBase {
             }
         }
     }
+
 
     public List<GameObject> CreateJinsim()
     {
@@ -54,81 +52,77 @@ public class HtFriendIdv : HtIndvBase {
         }
         return arrJinsim;
     }
-
+    
     public List<VecRot> HonPosition(bool pIsOver10)
     {
         List<VecRot> retAe = JJ.arrJinsimAe[(int)myFff];
         if (pIsOver10) {
-            retAe = JJ.arrJinsimAe [(int)Fff.TEN];
+            retAe = JJ.arrJinsimAe [(int)Fff.TENS];
             retAe.AddRange(JJ.arrJinsimAe[(int)myFff]);
         } 
-
+        
         Vector3 cur = transform.position;
         foreach (VecRot vrObj in retAe) {
             vrObj.ApplyVector(cur.x, cur.y, null); // not Z ... 
         }
         return retAe;
     }
-
+    
     public List<VecRot> HonEyePosition(bool pIsOver10)
     {
         List<VecRot> retAe = JJ.arrEyeAe[(int)myFff];
         if (pIsOver10) {
-            retAe = JJ.arrEyeAe [(int)Fff.TEN];
+            retAe = JJ.arrEyeAe [(int)Fff.TENS];
             retAe.AddRange(JJ.arrEyeAe[(int)myFff]);
         } 
-
+        
         Vector3 cur = transform.position;
         foreach (VecRot vrObj in retAe) {
             vrObj.ApplyVector(cur.x, cur.y, null); // not Z ... 
         }
         return retAe;
-    }
-
+    } */
+    
     protected override void TimerAction ()
     {
         base.TimerAction ();
     }
-
-	// Update is called once per frame
+    
+    // Update is called once per frame
     public override void Update () {
         base.Update ();
-
-
+        
+        
         // Some Coordinate Noise Generation ...  Some Rotating, Moving Animations....
         switch (mState) {
-
+            
         case "Freeze":
             //transform.position = mPosition.Freeze();
             break;
+            
+        case "JinsimJumbi":
+            transform.MoveSide(-0.05f);
+            break;
+        
+        case "JinsimChum":
 
-        case "JinsimIntro":
-
-            // Effect ... ???  
-
-
-            transform.MoveBack(0.1f);
+            //transform.MoveUp(0.01f);
+            break;
+        
+        case "Make10":
+            transform.Rotate(mRotation);
             break;
 
         case "Result":
-            transform.IntDivide(mTarget.Ae, 15,1); // 이동
+            //transform.IntDivide(mTarget.Ae, 15,1); // 이동
             break;
-
-        case "JinsimJumbi":
-            Destroy(gameObject);
-            break;
+        
         }
-	}
-
+    }
+    
     public void IntroduceAction()
     {
-        if (mIntroSound != null)
-            mIntroSound.Play ();
-        // myFff = ONEY ...
-
-        mIntroSound = (AudioSource)Resources.Load ("Com/Friends/Sound" + myFff.ToString () + "_Intro"); 
-
     }
-
-
+    
+    
 }

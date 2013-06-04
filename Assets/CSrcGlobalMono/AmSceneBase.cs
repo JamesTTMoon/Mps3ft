@@ -32,7 +32,7 @@ public class AmSceneBase : MonoBehaviour {
 
 	//  ////////////////////////////////////////////////     Starting Init Job
 	public virtual void Start () {
-        Ag.LogNewScene(GetType().ToString(), "Start");
+        //Ag.LogNewScene(GetType().ToString(), "Start");
         mRscrcMan = new HtRsrcMan( GetType().ToString() );
         
         SetAsset();
@@ -53,7 +53,7 @@ public class AmSceneBase : MonoBehaviour {
     }
     
     public virtual void BaseStartSetting() {
-        Ag.LogString( "   AmSceneBase::BaseStartSetting  Part of >>>>>  " + GetType().ToString() + "   <<<<<");
+        //Ag.LogString( "   AmSceneBase::BaseStartSetting  Part of >>>>>  " + GetType().ToString() + "   <<<<<");
         
         
     }

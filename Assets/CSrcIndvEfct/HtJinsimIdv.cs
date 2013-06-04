@@ -1,30 +1,35 @@
 using UnityEngine;
 using System.Collections;
 
-public class HtJinsimIdv : HtIndvBase {
+public class HtJinsimIdv : HtIndvBase
+{
     
     public AudioSource mIntroSound;
     //public Fff mInitFobj, mRsltFobj;
     public int mInitPrtN, mRsltPrtN;
 
-    //Vector3 mPosition;
+    Vector3 mJumbi;
 
-    VecRot mTarget;
     
     // Use this for initialization
-    public override void Start () {
+    public override void Start ()
+    {
+        mJumbi = new Vector3 (0, 0, 0.03f);
         
     }
 
-    public void SetTarget(VecRot pTarVr)
+    protected override void TimerAction ()
     {
-        mTarget = pTarVr;
+        base.TimerAction ();
     }
+
 
     // Update is called once per frame
-    public override void Update () {
-        
-        Vector3 ae  = transform.position;
+    public override void Update ()
+    {
+        base.Update ();
+
+        Vector3 ae = transform.position;
         
         // Some Coordinate Noise Generation ...  Some Rotating, Moving Animations....
         switch (mState) {
@@ -32,54 +37,52 @@ public class HtJinsimIdv : HtIndvBase {
         case "Freeze":
             // Animation Play.. 
 
-            transform.position = ae.Freeze();
+            transform.position = ae.Freeze ();
             break;
 
-        case "Jumbi": // 준비
+        case "JinsimJumbi": // 준비
             // Rotation only...
-            if (JJ.mgGod == Godirum.PLU) {
+            if (mGod == Godirum.PLU) {
+                //transform.IntDivideRotZ (mTarget.Dora, 0.003f);
+                transform.Rotate( mJumbi);
 
-                (" Jumbi , PLU ").HtLog();
-
+                //(" Jumbi , PLU  My Angle ... Target  " + mTarget.Dora.z + "   curZ : " + curZ + " ,  angZ : " + angZ ).HtLog();
+            
             }
 
-            if (JJ.mgGod == Godirum.MUL) {
+            if (mGod == Godirum.MUL) {
             }
 
             break;
 
-        case "Chum":
+        case "JinsimChum":
             // Transform, Rotation, Scale Setting...
-            if (JJ.mgGod == Godirum.PLU) {
-                
-                (" Chum , PLU ").HtLog();
-                
+            if (mGod == Godirum.PLU) {
+                transform.IntDivideRotZ(mTarget.Dora, 0.05f);
+
+                transform.IntDivideLimit (mTarget.Ae, 50, 1, 0.05f); // 이동 slow
+                //transform.IntDivideLimit (mTarget.Ae, 15, 1, 0.15f); // 이동 fast
+                transform.localScale = transform.localScale.IntDivide(mTarget.Kugi, 40, 1);
             }
-
-
             break;
 
         case "ObeyGod":
 
             break;
 
-        case "Result":
+        case "ShowResult":
             // Will be destroyed... The following line will not executed !!! 
-            " Result ;::: Destroy Myself   ".HtLog();
-
+            Destroy (gameObject);
             break;
 
-        case "Destroy":
-            // Will be destroyed... The following line will not executed !!! 
-            //" Result ;::: Destroy Myself   ".HtLog();
-            
+
             break;
         }
 
 
     }
     
-    public void IntroduceAction()
+    public void IntroduceAction ()
     {
         if (mIntroSound != null)
             mIntroSound.Play ();

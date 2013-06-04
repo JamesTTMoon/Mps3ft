@@ -49,9 +49,11 @@
      <Compile Include="Assets\CSrcIndvEfct\EfctBaseClass.cs" />
      <Compile Include="Assets\CSrcIndvEfct\EfctSplit.cs" />
      <Compile Include="Assets\CSrcIndvEfct\EfctTrans.cs" />
+     <Compile Include="Assets\CSrcIndvEfct\HtEyeIdv.cs" />
      <Compile Include="Assets\CSrcIndvEfct\HtFriendIdv.cs" />
      <Compile Include="Assets\CSrcIndvEfct\HtIndvBase.cs" />
      <Compile Include="Assets\CSrcIndvEfct\HtJinsimIdv.cs" />
+     <Compile Include="Assets\CSrcIndvEfct\HtTensIdv.cs" />
      <Compile Include="Assets\CSrcModel\HmEquation.cs" />
      <Compile Include="Assets\CSrcModel\HmFriend.cs" />
      <Compile Include="Assets\CSrcModel\HmJinsimManager.cs" />
@@ -59,18 +61,21 @@
      <Compile Include="Assets\CSrcModel\JJ.cs" />
      <Compile Include="Assets\CSrcModel\MdFormatter.cs" />
      <Compile Include="Assets\CSrcModel\MpsObjects.cs" />
+     <Compile Include="Assets\CSrcModel\VecRot.cs" />
+     <Compile Include="Assets\CSrcMono\MpsMonoSubMethods.cs" />
+     <Compile Include="Assets\CSrcMono\MpsOperator.cs" />
+     <Compile Include="Assets\CSrcMono\Plus.cs" />
      <Compile Include="Assets\CSrcUtil\AgTime.cs" />
      <Compile Include="Assets\CSrcUtil\AgUtil.cs" />
      <Compile Include="Assets\CSrcUtil\AmUI.cs" />
+     <Compile Include="Assets\CSrcUtil\ExtMpsRlted.cs" />
+     <Compile Include="Assets\CSrcUtil\ExtTranVect.cs" />
      <Compile Include="Assets\CSrcUtil\GeneralFunction.cs" />
      <Compile Include="Assets\CSrcUtil\HtBaseObject.cs" />
      <Compile Include="Assets\CSrcUtil\HtExtendMethod.cs" />
      <Compile Include="Assets\CSrcUtil\HtExtendMethodStr.cs" />
-     <Compile Include="Assets\CSrcUtil\HtExtendMethodVect.cs" />
      <Compile Include="Assets\CSrcUtil\HtStateArray.cs" />
      <Compile Include="Assets\CSrcUtil\HtStateMachine.cs" />
-     <Compile Include="Assets\CSrcUtil\HxtendMethod.cs" />
-     <Compile Include="Assets\CSrcUtil\HxtendMethodAni.cs" />
      <Compile Include="Assets\Venture\MainMps.cs" />
      <Compile Include="Assets\Venture\TestJob.cs" />
   </ItemGroup>

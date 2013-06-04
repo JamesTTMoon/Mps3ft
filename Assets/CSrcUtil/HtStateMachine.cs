@@ -10,11 +10,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
-public class AmPack 
-{
-
-}
-
 //  ////////////////////////////////////////////////     ////////////////////////     >>>>>  Base State  <<<<<
 public class BaseState
 {
@@ -22,7 +17,7 @@ public class BaseState
     //  ////////////////////////////////////////////////     Public
     public BaseState mExitState; // Never Change this...[2012:10:11:MOON] Interrupt Twisting.. 
     public BaseState mTempExitState;
-    public bool mDidExecute_Entry = false, mIsExitStateChanged = false, mIsFsmDebug = true, mIsDebug = false;
+    public bool mDidExecute_Entry = false, mIsExitStateChanged = false, mIsFsmDebug = true, mIsDebug = false, mNoDebug = true;
     public string mName;
     public AmPack mPackOfState;
     public bool mIsPacketType = false;
@@ -33,14 +28,14 @@ public class BaseState
     
     //  ////////////////////////////////////////////////     Private  ** 
     string mMarkSign = "_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ ";
- 
+    
     //  ////////////////////////////////////////////////     Protected  ** 
     
     protected AgTime mTimer;
     protected float mfTime;
     protected DateTime mEntryTime;
-
-
+    
+    
     //  ////////////////////////////////////////////////     Creation
     public BaseState ()
     {
@@ -62,13 +57,16 @@ public class BaseState
         mName = pName;
         mfTime = pTimerSet;
     }
-
+    
     void MarkSign()
     {
+        if (mNoDebug)
+            return;
+        
         if (mIsDebug)
             Debug.Log( mMarkSign + mMarkSign + mMarkSign + mMarkSign + "  Debug ..... \n");
         else
-            Debug.Log( mMarkSign + mMarkSign + mMarkSign + mMarkSign + "\n");
+            Debug.Log( mMarkSign + mMarkSign + mMarkSign + mMarkSign + " \n");
     }
     
     //  ////////////////////////////////////////////////     Main Actions...
@@ -81,7 +79,7 @@ public class BaseState
         }
         if (mIsExitStateChanged) {
             mIsExitStateChanged = false;
-
+            
             //Ag.LogString ("### BaseState::Exit 01 >> " + mName);
             return mTempExitState;
         }
@@ -89,17 +87,18 @@ public class BaseState
         if (mfLimitTime > 0) { // Limit Time is set !!!
             TimeSpan spanT = DateTime.Now - mEntryTime;
             if (spanT.TotalMilliseconds > mfLimitTime * 1000f) {
-                
-                Ag.LogString (" ");
-                Ag.LogString (" ");
-                Ag.LogString (" ");
-                Ag.LogString (" ");
-                Ag.LogString (" ");
-                Debug.Log ("BaseState :: >>>  >>>>>>>>>>>>>>>>>>>>>  TimeOutProcess :: BaseState :: >>>  >>>>>>>>>>>>>>>>>>>>>   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  ");
-                Debug.Log ("BaseState :: >>>  >>>>>>>>>>>>>>>>>>>>>  TimeOutProcess :: " + mName + " <<<   Limit Time   >>> " + mfLimitTime + "  is Over  $$$$$$$ \n");
-                Debug.Log ("BaseState :: >>>  >>>>>>>>>>>>>>>>>>>>>  TimeOutProcess :: BaseState :: >>>  >>>>>>>>>>>>>>>>>>>>>   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  ");
-                Ag.LogString (" ");
-                Ag.LogString (" ");
+                if (!mNoDebug) {
+                    Ag.LogString (" ");
+                    Ag.LogString (" ");
+                    Ag.LogString (" ");
+                    Ag.LogString (" ");
+                    Ag.LogString (" ");
+                    Debug.Log ("BaseState :: >>>  >>>>>>>>>>>>>>>>>>>>>  TimeOutProcess :: BaseState :: >>>  >>>>>>>>>>>>>>>>>>>>>   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  ");
+                    Debug.Log ("BaseState :: >>>  >>>>>>>>>>>>>>>>>>>>>  TimeOutProcess :: " + mName + " <<<   Limit Time   >>> " + mfLimitTime + "  is Over  $$$$$$$ \n");
+                    Debug.Log ("BaseState :: >>>  >>>>>>>>>>>>>>>>>>>>>  TimeOutProcess :: BaseState :: >>>  >>>>>>>>>>>>>>>>>>>>>   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  ");
+                    Ag.LogString (" ");
+                    Ag.LogString (" ");
+                }
                 
                 if (mfnTimeOutProcess == null) {
                     mDidExecute_Entry = false;
@@ -108,7 +107,7 @@ public class BaseState
                     mfnTimeOutProcess ();
             }
         }
-     
+        
         DuringAction ();
         
         if (mIsExitStateChanged) {
@@ -145,7 +144,7 @@ public class BaseState
         string theMark = "=> => => "; //" ~ ~ ~ ";
         string theLine = theMark + theMark + theMark + theMark + theMark + theMark + theMark + theMark + theMark + theMark + theMark;
         theLine = theLine + theLine;
-
+        
         if (mIsDebug)
             Ag.LogString ("BaseState :: >>> Interrupted :: _ _ _ _ _ _ _ _    From [  __  " + mName + "  __  ]  ==>>  To [  __  " + 
                           pTempExitState.mName + "  __  ]     >>>>\n");
@@ -167,7 +166,7 @@ public class BaseState
         
         return false;
     }
- 
+    
     //  ////////////////////////////////////////////////     Entry Actions....
     void CommonEntryAction ()
     {
@@ -178,17 +177,17 @@ public class BaseState
         //  "SIGN_MARK    >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n";
         
         //string entryS = "V V V V V V V V V "; //"====== entry =====";
-
-        MarkSign ();
+        
+        
         //Ag.LogString ("BaseState :: [[[ Entry Action ]]]   >>>>> ");
         //Ag.LogString (entryS + entryS + entryS + entryS + entryS + entryS + entryS + entryS + entryS + "\n");
-        Ag.LogString ("BaseState :: [[[ Entry Action ]]]   >>>>> ___ " + mName + " _____  <<<<<  ____ E n t r y ____   \n");
-        if (mIsDebug) {
-            MarkSign ();
-        }
-
+        if (mNoDebug) 
+            return;
+        MarkSign ();
+        if (mIsDebug)
+            Ag.LogString ("BaseState :: [[[ Entry Action ]]]   >>>>> ___ " + mName + " _____  <<<<<  ____ E n t r y ____   \n");
     }
- 
+    
     public virtual void EntryAction ()
     {
         CommonEntryAction ();
@@ -197,27 +196,29 @@ public class BaseState
             mTimer.WaitTimeFor (mfTime);
         }
     }
- 
+    
     public virtual AmPack EntryActionPacket ()
     {
         CommonEntryAction ();
         //Ag.LogString("<<<<<<<<<<<<<<<<<<<  <<<<<<<<<<<<<<<<<<<  <<<<<<<<<<<<<<<<<<<  <<<<<<<<<<<<<<<<<<<      EntryActionPacket   >>> Packet <<<  \n");
         
-        Ag.LogString ("WWWWWWWWWWWWWWWWWWWWWWW     EntryActionPacket WWWWW>>> Packet <<<WWWWWWWWWWW \n");
+        if (!mNoDebug)
+            Ag.LogString ("WWWWWWWWWWWWWWWWWWWWWWW     EntryActionPacket WWWWW>>> Packet <<<WWWWWWWWWWW \n");
         return mPackOfState;
     }
- 
+    
     //  ////////////////////////////////////////////////     Exit Actions....
     public virtual void ExitAction ()
     {
         //string entryS = "WWWWWWW exit WWWWWWWW";
         //string exitStr = ".......................................................";
-
-        if (mIsDebug) {
+        
+        if (!mNoDebug) {
             Debug.Log ("\n");
             MarkSign ();
+            Debug.Log ("BaseState :: _____[[[ Exit Action ]]] _____         ________________ " + mName + " ________________ \n");
         }
-        Debug.Log ("BaseState :: _____[[[ Exit Action ]]] _____         ________________ " + mName + " ________________ \n");
+        
         //Debug.Log("BaseState ::  ........... ........... ........... " + mName + "  ........... ...........  E x i t  >>>> >>> >>> \n");
         //Debug.Log("................................................................................................................... \n");
         //Debug.Log("................................................................................................................... \n");
@@ -232,6 +233,8 @@ public class StateGame : BaseState
     
     public FunctionPointer mEntryAction, mDuringAction, mExitAction;
     public FunctionPointerBool mExitCondition;
+    
+    List<FunctionPointer> arrEtry, arrDuri, arrExit;
     
     //  ////////////////////////////////////////////////     Creation
     public StateGame () : base ()
@@ -252,6 +255,12 @@ public class StateGame : BaseState
         base.DuringAction ();
         if (mDuringAction != null)
             mDuringAction ();
+        if (arrDuri == null)
+            return;
+        
+        foreach (FunctionPointer anAct in arrDuri) {
+            anAct ();
+        }
     }
     
     public override void EntryAction ()
@@ -259,6 +268,11 @@ public class StateGame : BaseState
         base.EntryAction ();
         if (mEntryAction != null)
             mEntryAction ();
+        if (arrEtry == null)
+            return;
+        foreach (FunctionPointer anAct in arrEtry) {
+            anAct ();
+        }
     }
     
     public override bool ExitCondition ()
@@ -282,6 +296,11 @@ public class StateGame : BaseState
         base.ExitAction ();
         if (mExitAction != null)
             mExitAction ();
+        if (arrExit == null)
+            return;
+        foreach (FunctionPointer anAct in arrExit) {
+            anAct ();
+        }
     }
     
     public float GetTime ()
@@ -292,6 +311,35 @@ public class StateGame : BaseState
         return 0f;
     }
     
+    public void AddAnActionTo (string pType, FunctionPointer pAction) // arrEtry, arrDuri, arrExit;
+    {  // [2013:4:19:MOON] Added
+        List<FunctionPointer> curArr = GetArrAction (pType);
+        curArr.Add (pAction);
+        
+    }
+    
+    //  ////////////////////////////////////////////////     Private
+    List<FunctionPointer> GetArrAction(string pType)
+    {
+        switch (pType) {
+        case "Entry":
+            if (arrEtry == null)
+                return arrEtry = new List<FunctionPointer>();
+            else
+                return arrEtry;
+        case "During":
+            if (arrDuri == null)
+                return arrDuri = new List<FunctionPointer>();
+            else
+                return arrDuri;
+        case "Exit":
+            if (arrExit == null)
+                return arrExit = new List<FunctionPointer>();
+            else
+                return arrExit;
+        }
+        return null;
+    }
     
 }
 
@@ -347,8 +395,8 @@ public class StatePacket : StateGame
     public override bool ExitCondition ()
     {
         if (mTimer != null || mExitCondition != null)
-        if (!base.ExitCondition ())
-            return false;
+            if (!base.ExitCondition ())
+                return false;
         
         if (DidPacketParsingFinished ())
             return true;

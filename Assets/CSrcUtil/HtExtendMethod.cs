@@ -3,7 +3,12 @@ using System.Collections;
 
 public static class HtExtendMethods 
 {
-
+    public static int GetBigger(this int pThis, int pThat)
+    {
+        if (pThis > pThat)
+            return pThis;
+        return pThat;
+    }
  
 	public static int GetRandomChant(this System.Random rand, int pGrade, int pMax)
 	{

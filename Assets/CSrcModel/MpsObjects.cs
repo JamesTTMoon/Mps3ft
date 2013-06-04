@@ -7,17 +7,10 @@ using System.Linq;
 using System.Text;
 
 
-public enum Fff
-{
-    YOUNG,
-    ONEY,
-    TWOER,
-    THREEN
-}
 
 public class MdObject
 {
-
+    public Godirum mGod;
 }
 
 public class UnitTrans : MdObject
@@ -37,24 +30,6 @@ public class UnitTrans : MdObject
         mLatt = pLatt;
         mGod = pGod;
         Show ();
-    }
-
-    public void SetResult()
-    {
-        switch (mGod) {
-        case Godirum.PLU:
-            mResult = mForm.mValue + mLatt.mValue;
-            break;
-        case Godirum.MIN:
-            mResult = mForm.mValue - mLatt.mValue;
-            break;
-        case Godirum.MUL:
-            mResult = mForm.mValue * mLatt.mValue;
-            break;
-        case Godirum.DIV:
-            mResult = mForm.mValue / mLatt.mValue;
-            break;
-        }
     }
 
     public bool IsItOver10()

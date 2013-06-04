@@ -62,17 +62,27 @@ public class HtRsrcMan
     }
 
 
+    public GameObject GetFriend (Fff pFF)
+    {
+        GameObject rObj = GetComPrefab ("Friends", pFF.ToString ());
+        rObj.AddComponent<HtFriendIdv>();
+        rObj.GetComponent<HtFriendIdv>().InitJob(pFF);
 
+        return rObj;
+    }
+     
     public GameObject GetComPrefab (string pSubFolder, string pName)
     {
         string fullStr = "Com/" + pSubFolder + "/" + pName;
+
+        if (pSubFolder == "")
+            fullStr = "Com/" + pName;
+
         try {
-            //Ag.LogString(mScnName + "/Prefab/" + pName);
+            //Ag.LogString("Scene :: " + mScnName + "   " + fullStr);
             return (GameObject)MonoBehaviour.Instantiate (Resources.Load (fullStr));
         } catch {
-            // Exception .... 
-            Ag.LogIntenseWord ("Error.GetComPrefab" + fullStr);
-            //AgStt.muiHQ.FatalError(null, Error.LOAD_TEXTURE);
+            Ag.LogIntenseWord ("Error.GetComPrefab   " + fullStr);
             return null;
         }
     }
