@@ -8,10 +8,8 @@ using System.Net.Sockets;
 using System.Linq;
 
 //  ////////////////////////////////////////////////     ////////////////////////     >>>>> String & Debug.... <<<<<
-public static class HtExtendMethodStr
+public static class ExtStr
 {
-	
-	
 	public static void ShowEachChar(this byte[] pByte, string pComment)  // [2013:3:26:MOON] Added..
 	{
 		Ag.LogIntense (3, true);

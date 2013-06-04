@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public static class HtExtendMethods 
+public static class ExtUtils
 {
     public static int GetBigger(this int pThis, int pThat)
     {
